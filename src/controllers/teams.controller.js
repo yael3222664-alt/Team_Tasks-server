@@ -12,7 +12,18 @@ export function listTeams(req, res) {
        GROUP BY t.id`
     )
     .all(req.user.id);
-  res.json(teams);
+  
+  const formattedTeams = teams.map(team => ({
+    id: team.id,
+    name: team.name,
+    ownerId: team.owner_id,
+    created_at: team.created_at,
+    _count: {
+      members: team.members_count
+    }
+  }));
+  
+  res.json(formattedTeams);
 }
 
 export function createTeam(req, res) {
@@ -39,4 +50,18 @@ export function addMember(req, res) {
     .prepare('INSERT OR IGNORE INTO team_members (team_id, user_id, role) VALUES (?,?,?)')
     .run(teamId, userId, role);
   res.status(204).end();
+}
+
+export function getTeamMembers(req, res) {
+  const { teamId } = req.params;
+  const members = db
+    .prepare(`
+      SELECT u.id, u.name, u.email, tm.role
+      FROM users u
+      JOIN team_members tm ON u.id = tm.user_id
+      WHERE tm.team_id = ?
+      ORDER BY u.name
+    `)
+    .all(teamId);
+  res.json(members);
 }

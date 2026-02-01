@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import './src/db.js';
 import authRouter from './src/routes/auth.js';
+import usersRouter from './src/routes/users.js';
 import teamsRouter from './src/routes/teams.js';
 import projectsRouter from './src/routes/projects.js';
 import tasksRouter from './src/routes/tasks.js';
@@ -23,6 +24,7 @@ app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
 // API routes
 app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/teams', teamsRouter);
 app.use('/api/projects', projectsRouter);
 app.use('/api/tasks', tasksRouter);
