@@ -1,20 +1,19 @@
 services:
   - type: web
-    name: team-tasks-api
+    name: TaskTeam-api
     env: node
-    plan: free
-    buildCommand: 'npm ci --omit=dev && npm_config_build_from_source=1 npm rebuild better-sqlite3'
-    startCommand: node seed.js && node server.js
-    autoDeploy: true
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
-      - key: NODE_VERSION
-        value: 18
-      - key: NODE_ENV
-        value: production
       - key: JWT_SECRET
         generateValue: true
       - key: DB_FILE
-        value: /tmp/data.sqlite
-      - key: SEED
-        value: 'false'
-    
+        value: /data/data.sqlite
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

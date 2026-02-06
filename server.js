@@ -15,7 +15,15 @@ import commentsRouter from './src/routes/comments.js';
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: '*'}));
+// app.use(cors({ origin: '*'}));
+app.use(cors({
+  origin: [
+    'http://localhost:4200',
+    'https://TaskTeam-dashboard.onrender.com'
+  ],
+  credentials: true
+}));
+//עד כאן התיקון
 app.use(express.json());
 app.use(morgan('dev'));
 
