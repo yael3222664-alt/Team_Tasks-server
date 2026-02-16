@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: TaskTeam-api
+    name: api-TaskTeam
     env: node
     buildCommand: npm install
     startCommand: npm start
